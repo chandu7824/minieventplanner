@@ -23,7 +23,7 @@ function Profile() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:5000/api/events/my-events",
+        `${import.meta.env.VITE_API_URL}/api/events/my-events`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -50,7 +50,7 @@ function Profile() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/events/${eventId}`,
+        `${import.meta.env.VITE_API_URL}/api/events/${eventId}`,
         {
           method: "DELETE",
           headers: {

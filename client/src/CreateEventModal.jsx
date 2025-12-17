@@ -36,7 +36,9 @@ function CreateEventModal({ onClose, onSuccess }) {
   // Test server connection function
   const testServerConnection = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/health");
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/health`
+      );
       const data = await response.json();
       console.log("✅ Server health check:", data);
       alert(
@@ -45,7 +47,11 @@ function CreateEventModal({ onClose, onSuccess }) {
     } catch (error) {
       console.error("❌ Server connection test failed:", error);
       alert(
-        `❌ Cannot connect to server: ${error.message}\n\nMake sure:\n1. Backend server is running (npm start in backend folder)\n2. Server is on http://localhost:5000`
+        `❌ Cannot connect to server: ${
+          error.message
+        }\n\nMake sure:\n1. Backend server is running (npm start in backend folder)\n2. Server is on ${
+          import.meta.env.VITE_API_URL
+        }`
       );
     }
   };
@@ -115,14 +121,17 @@ function CreateEventModal({ onClose, onSuccess }) {
 
       console.log("🚀 Sending request to /api/events...");
 
-      const response = await fetch("http://localhost:5000/api/events", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          // DO NOT set Content-Type for FormData - browser will set it automatically
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/events`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            // DO NOT set Content-Type for FormData - browser will set it automatically
+          },
+          body: formData,
+        }
+      );
 
       console.log("📡 Response status:", response.status);
       console.log(
@@ -163,7 +172,7 @@ function CreateEventModal({ onClose, onSuccess }) {
 
       if (error.message.includes("Failed to fetch")) {
         errorMessage =
-          "Cannot connect to server. Make sure backend is running on http://localhost:5000";
+          "Cannot connect to server. Make sure backend is running on ${import.meta.env.VITE_API_URL}";
       } else if (
         error.message.includes("401") ||
         error.message.includes("403")

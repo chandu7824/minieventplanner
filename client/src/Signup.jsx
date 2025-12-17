@@ -33,9 +33,9 @@ const signupSchema = yup.object().shape({
       if (!email) return false;
       try {
         const res = await fetch(
-          `http://localhost:5000/api/check-email?email=${encodeURIComponent(
-            email
-          )}`
+          `${
+            import.meta.env.VITE_API_URL
+          }/api/check-email?email=${encodeURIComponent(email)}`
         );
         const data = await res.json();
         if (data.error) {
@@ -64,9 +64,9 @@ const signupSchema = yup.object().shape({
           return this.createError({ message: "Username cannot be empty" });
         try {
           const res = await fetch(
-            `http://localhost:5000/api/check-username?userName=${encodeURIComponent(
-              userName
-            )}`
+            `${
+              import.meta.env.VITE_API_URL
+            }/api/check-username?userName=${encodeURIComponent(userName)}`
           );
           const data = await res.json();
           if (data.error) {
@@ -165,7 +165,7 @@ function Signup() {
 
     setIsCreating(true);
     try {
-      const res = await fetch("http://localhost:5000/signup", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -208,16 +208,19 @@ function Signup() {
 
     setSending(true);
     try {
-      const res = await fetch("http://localhost:5000/api/verify-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          type: "VERIFY_EMAIL",
-        }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/verify-email`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            email,
+            type: "VERIFY_EMAIL",
+          }),
+        }
+      );
 
       const data = await res.json();
 
@@ -258,11 +261,14 @@ function Signup() {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/verify-code", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, code, type: "VERIFY_EMAIL" }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/verify-code`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, code, type: "VERIFY_EMAIL" }),
+        }
+      );
 
       const data = await res.json();
 

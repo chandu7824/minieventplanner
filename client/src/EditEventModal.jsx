@@ -94,7 +94,7 @@ function EditEventModal({ event, onClose, onSuccess }) {
       }
 
       const response = await fetch(
-        `http://localhost:5000/api/events/${event._id}`,
+        `${import.meta.env.VITE_API_URL}/api/events/${event._id}`,
         {
           method: "PUT",
           headers: {
@@ -134,7 +134,7 @@ function EditEventModal({ event, onClose, onSuccess }) {
 
       if (error.message.includes("Failed to fetch")) {
         errorMessage =
-          "Cannot connect to server. Make sure backend is running on http://localhost:5000";
+          "Cannot connect to server. Make sure backend is running on ${import.meta.env.VITE_API_URL}";
       } else if (
         error.message.includes("401") ||
         error.message.includes("403")

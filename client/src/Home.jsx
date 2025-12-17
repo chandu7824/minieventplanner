@@ -28,11 +28,14 @@ function Home() {
   const fetchEvents = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:5000/api/events", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/events`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const data = await response.json();
       setEvents(data);
       setLoading(false);
@@ -45,7 +48,7 @@ function Home() {
   const fetchCategories = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5000/api/event-categories"
+        `${import.meta.env.VITE_API_URL}/api/event-categories`
       );
       const data = await response.json();
       setCategories(data);
@@ -63,7 +66,7 @@ function Home() {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:5000/api/events/${eventId}/rsvp`,
+        `${import.meta.env.VITE_API_URL}/api/events/${eventId}/rsvp`,
         {
           method: "POST",
           headers: {

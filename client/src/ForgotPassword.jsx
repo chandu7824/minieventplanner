@@ -22,9 +22,9 @@ const forgotPasswordSchema = yup.object().shape({
         if (!email) return false;
         try {
           const res = await fetch(
-            `http://localhost:5000/api/check-email?email=${encodeURIComponent(
-              email
-            )} `
+            `${
+              import.meta.env.VITE_API_URL
+            }/api/check-email?email=${encodeURIComponent(email)} `
           );
           const data = await res.json();
           if (data.error) {
@@ -90,11 +90,14 @@ function ForgotPassword() {
     try {
       setSendingCode(true);
 
-      const res = await fetch("http://localhost:5000/api/verify-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, type: "FORGOT_PASSWORD" }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/verify-email`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, type: "FORGOT_PASSWORD" }),
+        }
+      );
 
       const data = await res.json();
 
@@ -119,7 +122,7 @@ function ForgotPassword() {
 
   const validateCode = async (email, code) => {
     setValidating(true);
-    const res = await fetch("http://localhost:5000/api/verify-code", {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/verify-code`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, code, type: "FORGOT_PASSWORD" }),
@@ -147,11 +150,14 @@ function ForgotPassword() {
   const updatePassword = async ({ email, newPassword }) => {
     try {
       setUpdating(true);
-      const res = await fetch("http://localhost:5000/update-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, newPassword }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/update-password`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, newPassword }),
+        }
+      );
 
       const data = await res.json();
 
