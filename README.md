@@ -131,19 +131,71 @@ VITE_API_URL=http://localhost:5000
 
 ⚠️ .env files with real values must never be committed or shared.
 
-▶️ Running Locally
-Backend
+🚀 Running the Application Locally
+🔧 Prerequisites
+
+Make sure the following are installed:
+
+Node.js (v18 or later)
+
+MongoDB (local or MongoDB Atlas)
+
+Git
+
+📂 Project Structure
+minieventplanner/
+├── client/ # React + Vite frontend
+├── server/ # Node.js + Express backend
+├── README.md
+
+▶️ Backend Setup (Server)
+
+Navigate to the backend folder:
+
 cd server
+
+Install dependencies:
+
 npm install
+
+Create a .env file:
+
+PORT=5000
+ATLAS_URI=your_mongodb_connection_string
+ACCESS_SECRET_TOKEN=your_access_secret
+REFRESH_SECRET_TOKEN=your_refresh_secret
+CLIENT_URL=http://localhost:5173
+NODE_ENV=development
+
+Start the backend:
+
 npm run dev
 
-Frontend
+The backend will run on:
+
+http://localhost:5000
+
+▶️ Frontend Setup (Client)
+
+Open a new terminal and navigate to the client folder:
+
 cd client
+
+Install dependencies:
+
 npm install
+
+Create a .env file:
+
+VITE_API_URL=http://localhost:5000
+
+Start the frontend:
+
 npm run dev
 
-Frontend runs on: http://localhost:5173
-Backend runs on: http://localhost:5000
+The frontend will run on:
+
+http://localhost:5173
 
 🚀 Deployment
 Frontend (Vercel)
