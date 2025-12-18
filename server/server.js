@@ -57,25 +57,34 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(helmet());
 
-const allowedOrigins = [
-  "https://minieventplanner.vercel.app",
-  "http://localhost:5173",
-];
+const allowedOrigins = ["http://localhost:5173"];
 
 app.use(
   cors({
-    origin: function (origin, callback) {
+    origin: (origin, callback) => {
+      // Allow server-to-server or tools like Postman
       if (!origin) return callback(null, true);
 
+      // Allow localhost
       if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+        return callback(null, true);
       }
+
+      // Allow ALL Vercel preview + production URLs
+      if (origin.endsWith(".vercel.app")) {
+        return callback(null, true);
+      }
+
+      // Otherwise block
+      return callback(new Error("CORS not allowed"), false);
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+app.options("*", cors());
 
 // Serve uploaded images statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
